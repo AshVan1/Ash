@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import ChromeSignature3D from '@/components/ui/ChromeSignature3D'
 import { SparkleParticles } from '@/components/ui/SparkleParticles'
+import BlurText from '@/components/ui/BlurText'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -50,7 +51,7 @@ export default function About() {
                 className="relative cursor-pointer"
               >
                 <div className="h-16 md:h-20 lg:h-24 w-32 md:w-40 lg:w-48 flex items-center justify-start">
-                  <span className="text-white text-2xl md:text-3xl lg:text-4xl font-bold tracking-wide">
+                  <span className="text-white text-2xl md:text-3xl lg:text-4xl font-bold tracking-wide font-['Helvetica']">
                     AD
                   </span>
                 </div>
@@ -71,13 +72,13 @@ export default function About() {
                 }}
               >
                 <div className="h-18 w-44 flex items-center justify-center">
-                  <span className="text-white text-xl font-semibold tracking-wide">
+                  <span className="text-white text-xl font-semibold tracking-wide font-['Helvetica']">
                     Portfolio
                   </span>
                 </div>
                 </motion.div>
                 <div className="h-18 w-40 flex items-center justify-center">
-                  <span className="text-white text-xl font-semibold tracking-wide">
+                  <span className="text-white text-xl font-semibold tracking-wide font-['Helvetica']">
                     About
                   </span>
                 </div>
@@ -87,7 +88,7 @@ export default function About() {
                   className="cursor-pointer"
                 >
                   <div className="h-18 w-44 flex items-center justify-center">
-                    <span className="text-white text-xl font-semibold tracking-wide">
+                    <span className="text-white text-xl font-semibold tracking-wide font-['Helvetica']">
                       Contact
                     </span>
                   </div>
@@ -101,22 +102,8 @@ export default function About() {
         </div>
       </motion.nav>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 container mx-auto px-4 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-            About the Designer
-          </h1>
-        </motion.div>
-      </section>
-
       {/* About Content */}
-      <section className="py-16 container mx-auto px-4 relative z-10">
+      <section className="pt-32 pb-16 container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div
             variants={fadeInUp}
@@ -124,10 +111,13 @@ export default function About() {
             whileInView="animate"
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
-              My Journey in Jewelry Design
-            </h2>
-            <div className="space-y-6 text-gray-300 leading-relaxed text-lg">
+            <BlurText 
+              text="My Journey in Jewelry Design" 
+              className="text-3xl md:text-4xl font-bold text-white mb-8 font-['Helvetica']"
+              delay={100}
+              stepDuration={0.4}
+            />
+            <div className="space-y-6 text-gray-300 leading-relaxed text-lg font-['Helvetica']">
               <p>
                 With a passion for merging traditional craftsmanship with contemporary innovation, 
                 I create jewelry pieces that tell stories and capture emotions. Each design is born 

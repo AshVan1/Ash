@@ -79,7 +79,7 @@ export default function Contact() {
                 className="relative cursor-pointer"
               >
                 <div className="h-16 md:h-20 lg:h-24 w-32 md:w-40 lg:w-48 flex items-center justify-start">
-                  <span className="text-white text-2xl md:text-3xl lg:text-4xl font-bold tracking-wide">
+                  <span className="text-white text-2xl md:text-3xl lg:text-4xl font-bold tracking-wide font-['Helvetica']">
                     AD
                   </span>
                 </div>
@@ -100,7 +100,7 @@ export default function Contact() {
                 }}
               >
                 <div className="h-18 w-44 flex items-center justify-center">
-                  <span className="text-white text-xl font-semibold tracking-wide">
+                  <span className="text-white text-xl font-semibold tracking-wide font-['Helvetica']">
                     Portfolio
                   </span>
                 </div>
@@ -111,14 +111,14 @@ export default function Contact() {
                   className="cursor-pointer"
                 >
                   <div className="h-18 w-40 flex items-center justify-center">
-                    <span className="text-white text-xl font-semibold tracking-wide">
+                    <span className="text-white text-xl font-semibold tracking-wide font-['Helvetica']">
                       About
                     </span>
                   </div>
                 </motion.div>
               </Link>
                 <div className="h-18 w-44 flex items-center justify-center">
-                  <span className="text-white text-xl font-semibold tracking-wide">
+                  <span className="text-white text-xl font-semibold tracking-wide font-['Helvetica']">
                     Contact
                   </span>
                 </div>

@@ -281,7 +281,7 @@ export default function Portfolio() {
                     />
                   </div>
                 </div>
-                
+
                 {/* Content - Minimal and elegant */}
                 <div className="mt-6 text-center">
                 </div>

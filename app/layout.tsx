@@ -2,22 +2,11 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '../styles/globals.css'
 
-const inter = Inter({ 
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-})
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Jewelry Designer Portfolio',
-  description: 'Explore the portfolio of an aspiring jewelry designer specializing in contemporary, fine, and traditional jewelry pieces. Seeking internship opportunities.',
-  metadataBase: new URL('https://localhost:3000'),
-  openGraph: {
-    title: 'Jewelry Designer Portfolio',
-    description: 'Explore the portfolio of an aspiring jewelry designer specializing in contemporary, fine, and traditional jewelry pieces. Seeking internship opportunities.',
-    type: 'website',
-  },
-  keywords: ['jewelry design', 'portfolio', 'fine jewelry', 'contemporary jewelry', 'designer', 'internship', 'craftsmanship']
+  title: 'J. Cooper Jewelry Portfolio',
+  description: 'A modern jewelry portfolio showcasing 3D models and contemporary designs',
 }
 
 export default function RootLayout({
@@ -26,12 +15,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className={`${inter.className} antialiased`}>
-        <div className="min-h-screen bg-background text-foreground">
-          {children}
-        </div>
-      </body>
+    <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet" />
+      </head>
+      <body className={inter.className}>{children}</body>
     </html>
   )
 } 

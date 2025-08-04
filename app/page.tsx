@@ -4,52 +4,13 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState } from 'react'
 import { JewelryHeroSection } from '@/components/ui/jewelry-hero-section'
-import SpinningModel from '@/components/ui/SpinningModel'
 import ChromeSignature3D from '@/components/ui/ChromeSignature3D'
 import ColoredModel from '@/components/ui/ColoredModel'
-
-const portfolioItems = [
-  {
-    id: 1,
-    title: "Celestial Collection",
-    category: "Fine Jewelry",
-    modelPath: "/jewelry-model.stl",
-    description: "Inspired by cosmic movements and stellar formations",
-    materials: "18K White Gold, Lab-Grown Diamond",
-    year: "2024"
-  },
-  {
-    id: 2,
-    title: "Geometric Fusion",
-    category: "Contemporary",
-    modelPath: "/jewelry-model.stl", 
-    description: "Modern lines meeting classical elegance",
-    materials: "Sterling Silver, Cultured Pearl",
-    year: "2024"
-  },
-  {
-    id: 3,
-    title: "Heritage Series",
-    category: "Traditional",
-    modelPath: "/jewelry-model.stl",
-    description: "Timeless designs with contemporary craftsmanship",
-    materials: "18K Yellow Gold, Onyx",
-    year: "2023"
-  },
-  {
-    id: 4,
-    title: "Minimalist Edge",
-    category: "Modern",
-    modelPath: "/jewelry-model.stl",
-    description: "Clean lines and subtle sophistication",
-    materials: "Titanium, Sapphire Accents",
-    year: "2024"
-  }
-]
+import CircularText from '@/components/ui/CircularText'
 
 export default function Home() {
-  const [selectedItem, setSelectedItem] = useState<number | null>(null)
   const [selectedColor, setSelectedColor] = useState<string>("#C0C0C0") // Default silver
+  const [currentPage, setCurrentPage] = useState(0) // Track which 4 models to show
 
   const getColorForSelection = (colorName: string) => {
     switch(colorName) {
@@ -58,6 +19,49 @@ export default function Home() {
       case "platinum": return "#E5E4E2"
       default: return "#C0C0C0"
     }
+  }
+
+  // All 16 models organized in groups of 4
+  const allModels = [
+    // Page 0: First 4 models
+    [
+      { path: "/engine.stl", name: "Engine Model" },
+      { path: "/babylon.stl", name: "Babylon Model" },
+      { path: "/jewelry-model.stl", name: "Jewelry Model" },
+      { path: "/A ring.stl", name: "A Ring Model" }
+    ],
+    // Page 1: Next 4 models
+    [
+      { path: "/Bruno Size 7.75 US FINAL.stl", name: "Bruno Ring" },
+      { path: "/Fixed cross (~recovered).stl", name: "Fixed Cross" },
+      { path: "/girl ring 01 f (~recovered).stl", name: "Girl Ring" },
+      { path: "/Miles Size 9 US.stl", name: "Miles Ring" }
+    ],
+    // Page 2: Next 4 models
+    [
+      { path: "/New idea.stl", name: "New Idea" },
+      { path: "/notre damn.stl", name: "Notre Damn" },
+      { path: "/Ring (~recovered).stl", name: "Ring Recovered" },
+      { path: "/rng.stl", name: "RNG Model" }
+    ],
+    // Page 3: Last 4 models
+    [
+      { path: "/sfg.stl", name: "SFG Model" },
+      { path: "/Yay.stl", name: "Yay Model" },
+      { path: "/TOS.stl", name: "TOS Model" },
+      { path: "/Untitled.stl", name: "Untitled Model" }
+    ]
+  ]
+
+  const currentModels = allModels[currentPage]
+  const totalPages = allModels.length
+
+  const handleViewMore = () => {
+    setCurrentPage((prev) => (prev + 1) % totalPages)
+  }
+
+  const handleViewPrevious = () => {
+    setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages)
   }
 
   return (
@@ -80,7 +84,7 @@ export default function Home() {
               className="relative"
             >
               <div className="h-16 md:h-20 lg:h-24 w-32 md:w-40 lg:w-48 flex items-center justify-start">
-                <span className="text-off-white text-2xl md:text-3xl lg:text-4xl font-bold tracking-wide hover:text-white transition-colors duration-200">
+                <span className="text-off-white text-2xl md:text-3xl lg:text-4xl font-bold tracking-wide hover:text-white transition-colors duration-200 uppercase font-['Oxygen', sans-serif]">
                   AD
                 </span>
               </div>
@@ -99,8 +103,8 @@ export default function Home() {
                 }}
               >
                 <div className="h-18 w-44 flex items-center justify-center">
-                  <span className="text-off-white text-xl font-semibold tracking-wide hover:text-white transition-colors duration-200">
-                    Portfolio
+                  <span className="text-off-white text-xl font-bold tracking-wide hover:text-white transition-colors duration-200 uppercase font-['Oxygen', sans-serif]">
+                  Portfolio
                   </span>
                 </div>
                 </motion.div>
@@ -110,8 +114,8 @@ export default function Home() {
                   className="cursor-pointer"
                 >
                   <div className="h-18 w-40 flex items-center justify-center">
-                    <span className="text-off-white text-xl font-semibold tracking-wide hover:text-white transition-colors duration-200">
-                      About
+                    <span className="text-off-white text-xl font-bold tracking-wide hover:text-white transition-colors duration-200 uppercase font-['Oxygen', sans-serif]">
+                  About
                     </span>
                   </div>
                 </motion.div>
@@ -122,8 +126,8 @@ export default function Home() {
                   className="cursor-pointer"
                 >
                   <div className="h-18 w-44 flex items-center justify-center">
-                    <span className="text-off-white text-xl font-semibold tracking-wide hover:text-white transition-colors duration-200">
-                      Contact
+                    <span className="text-off-white text-xl font-bold tracking-wide hover:text-white transition-colors duration-200 uppercase font-['Oxygen', sans-serif]">
+                  Contact
                     </span>
                   </div>
                 </motion.div>
@@ -138,38 +142,56 @@ export default function Home() {
 
       {/* Portfolio Preview Section - positioned after 3D hero */}
       <section id="portfolio" className="py-24 container mx-auto px-4 relative z-10" style={{ marginTop: '300vh' }}>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {portfolioItems.map((item, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+          {currentModels.map((model, index) => (
             <motion.div
-              key={index}
+              key={`${currentPage}-${index}`}
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: index * 0.1 }}
-              viewport={{ once: true }}
               whileHover={{ y: -10, scale: 1.02 }}
-              className="group cursor-pointer"
-              onClick={() => setSelectedItem(item.id)}
+              className="group"
             >
               <div className="relative overflow-hidden rounded-3xl">
-                {/* 3D Model Viewer - Floating naturally */}
                 <div className="aspect-[4/5] flex items-center justify-center relative overflow-hidden">
                   <div className="w-full h-full">
                     <ColoredModel 
-                      modelPath={item.modelPath}
-                      scale={1}
+                      modelPath={model.path}
+                      scale={1.5}
                       rotationSpeed={0.3}
                       color={selectedColor}
                       className="w-full h-full"
                     />
                   </div>
                 </div>
-                
-                {/* Content - Minimal and elegant */}
-                <div className="mt-6 text-center">
-                </div>
               </div>
             </motion.div>
           ))}
+        </div>
+
+        {/* Navigation Controls */}
+        <div className="flex justify-center items-center mt-12 space-x-6">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleViewPrevious}
+            className="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-off-white rounded-lg transition-colors duration-200 font-bold uppercase tracking-wide"
+          >
+            Previous
+          </motion.button>
+
+          <div className="text-off-white text-lg font-bold">
+            {currentPage + 1} / {totalPages}
+          </div>
+
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleViewMore}
+            className="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-off-white rounded-lg transition-colors duration-200 font-bold uppercase tracking-wide"
+          >
+            View More
+          </motion.button>
         </div>
       </section>
 
@@ -188,108 +210,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-
-      {/* Detailed View Modal */}
-      {selectedItem && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4"
-          onClick={() => setSelectedItem(null)}
-        >
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0, rotateY: -15 }}
-            animate={{ scale: 1, opacity: 1, rotateY: 0 }}
-            exit={{ scale: 0.9, opacity: 0, rotateY: 15 }}
-            className="bg-black/90 backdrop-blur-md rounded-3xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-white/10"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {(() => {
-              const item = portfolioItems.find(i => i.id === selectedItem)
-              if (!item) return null
-              
-              return (
-                <>
-                  <div className="flex justify-between items-start mb-8">
-                    <div>
-                      <h2 className="text-4xl font-bold text-white mb-3">{item.title}</h2>
-                      <div className="text-silver-400 font-medium bg-black/40 backdrop-blur-sm px-4 py-2 rounded-full inline-block">{item.category}</div>
-                    </div>
-                    <button
-                      onClick={() => setSelectedItem(null)}
-                      className="text-gray-400 hover:text-white text-3xl bg-black/40 backdrop-blur-sm rounded-full w-10 h-10 flex items-center justify-center hover:bg-black/60 transition-all duration-300"
-                    >
-                      ×
-                    </button>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div className="aspect-[3/4] rounded-2xl flex items-center justify-center relative overflow-hidden">
-                      <div className="w-full h-full">
-                        <ColoredModel 
-                          modelPath={item.modelPath}
-                          scale={1.2}
-                          rotationSpeed={0.5}
-                          color={selectedColor}
-                          className="w-full h-full"
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-8">
-                      <div>
-                        <h3 className="text-white font-bold text-2xl mb-4">Description</h3>
-                        <p className="text-white leading-relaxed text-lg opacity-90">{item.description}</p>
-                      </div>
-                      
-                      <div>
-                        <h3 className="text-white font-bold text-2xl mb-6">Details</h3>
-                        <div className="space-y-4">
-                          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                            <strong className="text-silver-400 text-sm uppercase tracking-wide">Category</strong> 
-                            <p className="text-white mt-1 text-lg">{item.category}</p>
-                          </div>
-                          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                            <strong className="text-silver-400 text-sm uppercase tracking-wide">Year</strong> 
-                            <p className="text-white mt-1 text-lg">{item.year}</p>
-                          </div>
-                          
-                          {/* Glass Radio Group for Material Selection */}
-                          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                            <strong className="text-silver-400 text-sm uppercase tracking-wide mb-4 block">Material</strong>
-                            <div className="glass-radio-group">
-                              <input type="radio" id="glass-silver" name="material" defaultChecked onChange={() => setSelectedColor("#C0C0C0")} />
-                              <label htmlFor="glass-silver">Silver</label>
-                              
-                              <input type="radio" id="glass-gold" name="material" onChange={() => setSelectedColor("#FFD700")} />
-                              <label htmlFor="glass-gold">Gold</label>
-                              
-                              <input type="radio" id="glass-platinum" name="material" onChange={() => setSelectedColor("#E5E4E2")} />
-                              <label htmlFor="glass-platinum">Platinum</label>
-                              
-                              <div className="glass-glider"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="flex gap-4 pt-6">
-                        <button className="bg-white/20 backdrop-blur-sm text-white font-bold py-4 px-8 rounded-full hover:bg-white/30 transition-all duration-300 border border-white/30 flex-1">
-                          Inquire About Piece
-                        </button>
-                        <button className="border border-white/30 text-white font-bold py-4 px-8 rounded-full hover:bg-white/10 transition-all duration-300 flex-1">
-                          View Process
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )
-            })()}
-          </motion.div>
-        </motion.div>
-      )}
 
       <style jsx>{`
         .glass-radio-group {
