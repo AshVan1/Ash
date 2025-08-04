@@ -98,8 +98,8 @@ export default function About() {
                 </div>
                 </motion.div>
                 <div className="h-18 w-40 flex items-center justify-center">
-                  <span className="text-white text-xl font-semibold tracking-wide font-['Helvetica']">
-                    About
+                  <span className="text-white text-xl font-semibold tracking-wide font-['Helvetica'] uppercase">
+                    ABOUT
                   </span>
                 </div>
               <Link href="/contact">
@@ -124,13 +124,13 @@ export default function About() {
 
       {/* About Content */}
       <section className="pt-32 pb-16 container mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start pt-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start pt-24">
           <motion.div
             variants={fadeInUp}
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
-            className="pt-20"
+            className="pt-16"
           >
             <BlurText 
               text="My Journey in Jewelry Design" 
@@ -170,7 +170,7 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="relative pt-8 flex justify-end"
+            className="relative pt-4 flex justify-end"
           >
             <div className="card">
               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -192,8 +192,8 @@ export default function About() {
       <style jsx>{`
         .card {
           position: relative;
-          width: 600px;
-          height: 500px;
+          width: 500px;
+          height: 400px;
           background-color: #f2f2f2;
           border-radius: 10px;
           display: flex;

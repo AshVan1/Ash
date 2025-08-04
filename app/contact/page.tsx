@@ -103,8 +103,8 @@ export default function Contact() {
                 </motion.div>
               </Link>
                 <div className="h-18 w-44 flex items-center justify-center">
-                  <span className="text-white text-xl font-semibold tracking-wide font-['Helvetica']">
-                  Contact
+                  <span className="text-white text-xl font-semibold tracking-wide font-['Helvetica'] uppercase">
+                  CONTACT
                   </span>
                 </div>
             </div>
@@ -121,7 +121,7 @@ export default function Contact() {
 
       {/* Animated Card Section */}
       <section className="py-16 container mx-auto px-4 relative z-10">
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center pt-16">
           <div className="outer">
             <div className="dot"></div>
             <div className="card">
@@ -175,8 +175,8 @@ export default function Contact() {
 
       <style jsx>{`
         .outer {
-          width: 800px;
-          height: 600px;
+          width: 600px;
+          height: 500px;
           border-radius: 10px;
           padding: 1px;
           background: radial-gradient(circle 230px at 0% 0%, #ffffff, #0c0d0d);
