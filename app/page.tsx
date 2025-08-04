@@ -278,7 +278,6 @@ export default function Home() {
                   scale: 1.2,
                   transition: { duration: 0.3, ease: "easeOut" }
                 }}
-                transition={{ duration: 0.1, ease: "easeOut" }}
                 className="group cursor-pointer w-full"
               >
                 <div className="aspect-[4/5] flex items-center justify-center relative overflow-hidden w-full">
