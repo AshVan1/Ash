@@ -121,6 +121,7 @@ export default function About() {
                 { filter: 'blur(5px)', opacity: 0.5, y: 5 },
                 { filter: 'blur(0px)', opacity: 1, y: 0 }
               ]}
+              onAnimationComplete={() => {}}
             />
             <div className="space-y-6 text-gray-300 leading-relaxed text-lg font-['Helvetica']">
               <p>
