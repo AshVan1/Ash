@@ -13,7 +13,7 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(0) // Track which 4 models to show
   const [isLoading, setIsLoading] = useState(true) // Loading state
   const [modelsLoading, setModelsLoading] = useState(true) // 3D models loading state
-  const [activeSection, setActiveSection] = useState<string>("portfolio") // Track active section
+  const [activeSection, setActiveSection] = useState<string>("") // Track active section - start with none
 
   const getColorForSelection = (colorName: string) => {
     switch(colorName) {
@@ -77,45 +77,13 @@ export default function Home() {
     return () => clearTimeout(timer)
   }, [])
 
-  // Handle 3D models loading with optimized performance
+  // Handle 3D models loading with 1-second delay
   useEffect(() => {
-    // Use a shorter delay for better perceived performance
     const timer = setTimeout(() => {
       setModelsLoading(false)
-    }, 500) // Reduced from 1000ms to 500ms for better UX
+    }, 1000) // 1-second delay for model rendering
     return () => clearTimeout(timer)
   }, [currentPage]) // Reset when page changes
-
-  // Preload next page models for smoother navigation
-  useEffect(() => {
-    const preloadNextModels = async () => {
-      const nextPage = (currentPage + 1) % totalPages
-      const nextModels = allModels[nextPage]
-      
-      // Preload STL files in background
-      try {
-        const { STLLoader } = await import('three/addons/loaders/STLLoader.js')
-        const loader = new STLLoader()
-        
-        nextModels.forEach(model => {
-          // Create a hidden loader to preload the model
-          const tempLoader = new STLLoader()
-          tempLoader.load(model.path, () => {
-            // Model preloaded successfully
-          }, undefined, () => {
-            // Silent fail for preloading
-          })
-        })
-      } catch (error) {
-        // Silent fail for preloading
-      }
-    }
-
-    // Preload after current models are loaded
-    if (!modelsLoading) {
-      preloadNextModels()
-    }
-  }, [currentPage, modelsLoading, allModels, totalPages])
 
   // Handle scroll-based navigation highlighting
   useEffect(() => {
@@ -132,12 +100,16 @@ export default function Home() {
         const aboutTop = aboutSection.offsetTop
         const contactTop = contactSection.offsetTop
 
-        if (scrollPosition < aboutTop) {
+        // Only highlight portfolio when actually in the portfolio section
+        if (scrollPosition >= portfolioTop && scrollPosition < aboutTop) {
           setActiveSection("portfolio")
-        } else if (scrollPosition < contactTop) {
+        } else if (scrollPosition >= aboutTop && scrollPosition < contactTop) {
           setActiveSection("about")
-        } else {
+        } else if (scrollPosition >= contactTop) {
           setActiveSection("contact")
+        } else {
+          // When in hero section (top of page), no section is active
+          setActiveSection("")
         }
       }
     }
@@ -187,7 +159,14 @@ export default function Home() {
                   whileHover={{ scale: 1.05 }}
                 className="cursor-pointer"
                 onClick={() => {
-                  document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' })
+                  const element = document.getElementById('portfolio')
+                  if (element) {
+                    const offset = window.innerHeight / 2 - element.offsetHeight / 2
+                    element.scrollIntoView({ 
+                      behavior: 'smooth',
+                      block: 'center'
+                    })
+                  }
                 }}
               >
                 <div className="h-18 w-44 flex items-center justify-center">
@@ -204,7 +183,14 @@ export default function Home() {
                 whileHover={{ scale: 1.05 }}
                 className="cursor-pointer"
                 onClick={() => {
-                  document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })
+                  const element = document.getElementById('about')
+                  if (element) {
+                    const offset = window.innerHeight / 2 - element.offsetHeight / 2
+                    element.scrollIntoView({ 
+                      behavior: 'smooth',
+                      block: 'center'
+                    })
+                  }
                 }}
               >
                 <div className="h-18 w-40 flex items-center justify-center">
@@ -221,7 +207,14 @@ export default function Home() {
                 whileHover={{ scale: 1.05 }}
                 className="cursor-pointer"
                 onClick={() => {
-                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+                  const element = document.getElementById('contact')
+                  if (element) {
+                    const offset = window.innerHeight / 2 - element.offsetHeight / 2
+                    element.scrollIntoView({ 
+                      behavior: 'smooth',
+                      block: 'center'
+                    })
+                  }
                 }}
               >
                 <div className="h-18 w-44 flex items-center justify-center">
@@ -281,16 +274,12 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: index * 0.1 }}
                 whileHover={{ 
-                  y: -15, 
-                  scale: 1.1,
-                  transition: { duration: 0.2, ease: "easeOut" }
+                  y: -25, 
+                  scale: 1.2,
+                  transition: { duration: 0.3, ease: "easeOut" }
                 }}
-                className="group cursor-pointer w-full model-container"
-                style={{
-                  contentVisibility: 'auto',
-                  containIntrinsicSize: '400px',
-                  willChange: 'transform, opacity'
-                }}
+                transition={{ duration: 0.1, ease: "easeOut" }}
+                className="group cursor-pointer w-full"
               >
                 <div className="aspect-[4/5] flex items-center justify-center relative overflow-hidden w-full">
                   <div className="w-full h-full">
@@ -333,6 +322,11 @@ export default function Home() {
               <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
+        </div>
+        
+        {/* Loading times notice */}
+        <div className="text-center mt-4">
+          <p className="text-black text-xs">Loading times may vary</p>
         </div>
       </section>
 
@@ -460,7 +454,16 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-400 mb-4 md:mb-0">
-              © 2025 Jewelry Designer Portfolio. All rights reserved.
+              <div>© 2025 Asher Delman. All rights reserved.</div>
+              <div className="flex items-center gap-2 mt-1 text-gray-400">
+                <span>Website developed and designed by Oscar Salerno</span>
+                <a href="mailto:osalerno@email.com" className="hover:text-white" title="Email Oscar" style={{fontSize: '1rem', display: 'flex', alignItems: 'center'}}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M22 6L12 13L2 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/oscar-salerno" className="hover:text-white" title="Oscar's LinkedIn" target="_blank" rel="noopener noreferrer" style={{fontSize: '1rem', display: 'flex', alignItems: 'center'}}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" fill="currentColor"/></svg>
+                </a>
+              </div>
             </div>
             <div className="flex space-x-6">
               <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">Instagram</a>
@@ -629,7 +632,6 @@ export default function Home() {
           align-items: center;
           border-radius: 50%;
           margin-left: -75px;
-          will-change: transform;
         }
 
         .spinner span {
@@ -641,7 +643,6 @@ export default function Home() {
           background: #ffff;
           animation: dominos 1s ease infinite;
           box-shadow: 2px 2px 3px 0px black;
-          will-change: transform, opacity;
         }
 
         .spinner span:nth-child(1) {
@@ -683,19 +684,6 @@ export default function Home() {
           left: 10px;
         }
 
-        /* 3D Model Container Optimizations */
-        .model-container {
-          content-visibility: auto;
-          contain-intrinsic-size: 400px;
-          contain: layout style paint;
-          will-change: transform, opacity;
-        }
-
-        .model-container:hover {
-          will-change: transform;
-        }
-
-        /* Optimize animations for better performance */
         @keyframes dominos {
           50% {
             opacity: 0.7;

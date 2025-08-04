@@ -18,23 +18,17 @@ function Model({ modelPath, scale = 1, rotationSpeed = 0.5, color = "#ffffff" }:
   const meshRef = useRef<THREE.Mesh>(null)
   const [geometry, setGeometry] = useState<THREE.BufferGeometry | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
 
-  // Load STL file with optimized loading
+  // Load STL file
   useEffect(() => {
-    let isCancelled = false
-    
     const loadSTL = async () => {
       try {
-        setIsLoading(true)
         const { STLLoader } = await import('three/addons/loaders/STLLoader.js')
         const loader = new STLLoader()
         
         loader.load(
           modelPath,
           (geometry) => {
-            if (isCancelled) return
-            
             // Center the geometry
             geometry.computeBoundingBox()
             const center = new THREE.Vector3()
@@ -50,31 +44,20 @@ function Model({ modelPath, scale = 1, rotationSpeed = 0.5, color = "#ffffff" }:
             
             setGeometry(geometry)
             setError(null)
-            setIsLoading(false)
           },
-          (progress) => {
-            // Optional: Add loading progress if needed
-          },
+          undefined,
           (error) => {
-            if (isCancelled) return
             console.error('Error loading STL:', error)
             setError('Failed to load model')
-            setIsLoading(false)
           }
         )
       } catch (error) {
-        if (isCancelled) return
         console.error('Error importing STLLoader:', error)
         setError('Failed to load model')
-        setIsLoading(false)
       }
     }
 
     loadSTL()
-    
-    return () => {
-      isCancelled = true
-    }
   }, [modelPath])
 
   // Set initial slanted position and rotation animation
@@ -101,24 +84,20 @@ function Model({ modelPath, scale = 1, rotationSpeed = 0.5, color = "#ffffff" }:
 
   return (
     <mesh ref={meshRef} geometry={geometry}>
-      {/* Optimized Chrome Effect Material */}
+      {/* Chrome Effect Material */}
       <meshPhysicalMaterial
         color={color}
-        metalness={0.9}
-        roughness={0.1}
-        reflectivity={0.8}
-        clearcoat={0.8}
-        clearcoatRoughness={0.1}
-        envMapIntensity={1.5}
-        ior={1.5}
-        transmission={0.1}
-        thickness={0.5}
-        attenuationDistance={0.8}
+        metalness={1}
+        roughness={0}
+        reflectivity={1}
+        clearcoat={1}
+        clearcoatRoughness={0}
+        envMapIntensity={2.0}
+        ior={1.8}
+        transmission={0.2}
+        thickness={0.8}
+        attenuationDistance={1}
         attenuationColor="#ffffff"
-        // Performance optimizations
-        transparent={false}
-        depthWrite={true}
-        depthTest={true}
       />
     </mesh>
   )
@@ -151,22 +130,15 @@ export default function ColoredModel({
           gl={{ 
             antialias: true,
             alpha: true,
-            powerPreference: "high-performance",
-            // Performance optimizations
-            stencil: false,
-            depth: true,
-            logarithmicDepthBuffer: false
+            powerPreference: "high-performance"
           }}
           onError={() => setHasError(true)}
-          // Performance optimizations
-          frameloop="demand"
-          dpr={[1, 2]}
         >
-          {/* Optimized Lighting for Chrome Effect */}
-          <ambientLight intensity={0.8} />
-          <directionalLight position={[10, 10, 5]} intensity={1.5} />
-          <pointLight position={[-10, -10, -5]} intensity={0.6} />
-          <pointLight position={[0, 10, 0]} intensity={0.8} />
+          {/* Enhanced Lighting for Chrome Effect */}
+          <ambientLight intensity={1} />
+          <directionalLight position={[10, 10, 5]} intensity={2} />
+          <pointLight position={[-10, -10, -5]} intensity={0.8} />
+          <pointLight position={[0, 10, 0]} intensity={1.0} />
           
           {/* Environment for realistic chrome reflections */}
           <Environment preset="sunset" />
@@ -188,10 +160,6 @@ export default function ColoredModel({
             enableRotate={true}
             autoRotate={false}
             autoRotateSpeed={0.5}
-            // Performance optimizations
-            enableDamping={false}
-            dampingFactor={0.05}
-            rotateSpeed={0.5}
           />
         </Canvas>
       )}
@@ -200,13 +168,6 @@ export default function ColoredModel({
       {hasError && isInView && (
         <div className="absolute inset-0 flex items-center justify-center text-red-400 text-sm bg-black bg-opacity-50">
           Failed to load model
-        </div>
-      )}
-      
-      {/* Placeholder when not in view */}
-      {!isInView && (
-        <div className="w-full h-full bg-gray-900 rounded-3xl flex items-center justify-center">
-          <div className="text-gray-600 text-sm">Scroll to load</div>
         </div>
       )}
     </div>
