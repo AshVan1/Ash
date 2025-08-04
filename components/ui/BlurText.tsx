@@ -1,12 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState, useMemo } from 'react';
 
-interface AnimationState {
-  filter: string;
-  opacity: number;
-  y: number;
-}
-
 interface BlurTextProps {
   text?: string;
   delay?: number;
@@ -15,14 +9,14 @@ interface BlurTextProps {
   direction?: string;
   threshold?: number;
   rootMargin?: string;
-  animationFrom?: AnimationState;
-  animationTo?: AnimationState[];
+  animationFrom?: any;
+  animationTo?: any[];
   easing?: (t: number) => number;
   onAnimationComplete?: () => void;
   stepDuration?: number;
 }
 
-const buildKeyframes = (from: AnimationState, steps: AnimationState[]) => {
+const buildKeyframes = (from: any, steps: any[]) => {
   const keys = new Set([
     ...Object.keys(from),
     ...steps.flatMap((s) => Object.keys(s)),
@@ -30,7 +24,7 @@ const buildKeyframes = (from: AnimationState, steps: AnimationState[]) => {
 
   const keyframes: any = {};
   keys.forEach((k) => {
-    keyframes[k] = [from[k as keyof AnimationState], ...steps.map((s) => s[k as keyof AnimationState])];
+    keyframes[k] = [from[k], ...steps.map((s) => s[k])];
   });
   return keyframes;
 };
