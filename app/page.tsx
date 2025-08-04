@@ -207,20 +207,22 @@ export default function Home() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: index * 0.1 }}
-                whileHover={{ y: -10, scale: 1.02 }}
-                className="group"
+                whileHover={{ 
+                  y: -15, 
+                  scale: 1.1,
+                  transition: { duration: 0.2, ease: "easeOut" }
+                }}
+                className="group cursor-pointer w-full"
               >
-                <div className="relative overflow-hidden rounded-3xl">
-                  <div className="aspect-[4/5] flex items-center justify-center relative overflow-hidden">
-                    <div className="w-full h-full">
-                      <ColoredModel 
-                        modelPath={model.path}
-                        scale={1.5}
-                        rotationSpeed={0.3}
-                        color={selectedColor}
-                        className="w-full h-full"
-                      />
-                    </div>
+                <div className="aspect-[4/5] flex items-center justify-center relative overflow-hidden w-full">
+                  <div className="w-full h-full">
+                    <ColoredModel 
+                      modelPath={model.path}
+                      scale={1.5}
+                      rotationSpeed={0.3}
+                      color={selectedColor}
+                      className="w-full h-full"
+                    />
                   </div>
                 </div>
               </motion.div>
@@ -229,7 +231,7 @@ export default function Home() {
         </div>
 
         {/* Navigation Controls */}
-        <div className="flex justify-center items-center mt-12 space-x-12">
+        <div className="flex justify-center items-center mt-12">
           <button
             onClick={handleViewPrevious}
             className="custom-nav-button"
@@ -240,7 +242,7 @@ export default function Home() {
             <p data-text="Back">Back</p>
           </button>
 
-          <div className="text-off-white text-lg font-bold mx-8">
+          <div className="text-off-white text-lg font-bold mx-8 opacity-0">
             {currentPage + 1} / {totalPages}
           </div>
 
