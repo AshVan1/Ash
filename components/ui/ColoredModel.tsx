@@ -60,6 +60,16 @@ function Model({ modelPath, scale = 1, rotationSpeed = 0.5, color = "#ffffff" }:
     loadSTL()
   }, [modelPath])
 
+  // Set initial slanted position and rotation animation
+  useEffect(() => {
+    if (meshRef.current) {
+      // Set initial slanted position (rotated on X and Y axes)
+      meshRef.current.rotation.x = 0.5 // More tilt forward
+      meshRef.current.rotation.y = 0.8 // More rotation to the side
+      meshRef.current.rotation.z = 0.2 // More twist
+    }
+  }, [geometry])
+
   // Rotation animation
   useFrame((state, delta) => {
     if (meshRef.current) {
