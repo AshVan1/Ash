@@ -170,7 +170,7 @@ export default function Home() {
                 }}
               >
                 <div className="h-18 w-44 flex items-center justify-center">
-                  <span className={`text-lg md:text-xl font-bold tracking-wide transition-colors duration-200 uppercase font-['Oxygen', sans-serif] ${
+                  <span className={`text-lg font-bold tracking-wide transition-colors duration-200 uppercase font-['Oxygen', sans-serif] ${
                     activeSection === "portfolio" 
                       ? "text-white" 
                       : "text-off-white hover:text-white"
@@ -194,7 +194,7 @@ export default function Home() {
                 }}
               >
                 <div className="h-18 w-40 flex items-center justify-center">
-                  <span className={`text-lg md:text-xl font-bold tracking-wide transition-colors duration-200 uppercase font-['Oxygen', sans-serif] ${
+                  <span className={`text-lg font-bold tracking-wide transition-colors duration-200 uppercase font-['Oxygen', sans-serif] ${
                     activeSection === "about" 
                       ? "text-white" 
                       : "text-off-white hover:text-white"
@@ -218,7 +218,7 @@ export default function Home() {
                 }}
               >
                 <div className="h-18 w-44 flex items-center justify-center">
-                  <span className={`text-lg md:text-xl font-bold tracking-wide transition-colors duration-200 uppercase font-['Oxygen', sans-serif] ${
+                  <span className={`text-lg font-bold tracking-wide transition-colors duration-200 uppercase font-['Oxygen', sans-serif] ${
                     activeSection === "contact" 
                       ? "text-white" 
                       : "text-off-white hover:text-white"
@@ -339,10 +339,10 @@ export default function Home() {
             viewport={{ once: true }}
             className="pt-16"
           >
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-8 font-['Helvetica']">
+            <h2 className="text-3xl font-bold text-white mb-8 font-['Helvetica']">
               My Journey in Jewelry Design
             </h2>
-            <div className="space-y-6 text-gray-300 leading-relaxed text-lg md:text-xl font-['Helvetica']">
+            <div className="space-y-6 text-gray-300 leading-relaxed text-lg font-['Helvetica']">
               <p>
                 With a passion for merging traditional craftsmanship with contemporary innovation, 
                 I create jewelry pieces that tell stories and capture emotions. Each design is born 
@@ -701,9 +701,8 @@ export default function Home() {
         /* About Section Card Styles */
         .about-card {
           position: relative;
-          max-width: 500px;
-          width: 100%;
-          aspect-ratio: 5/4;
+          width: 450px;
+          height: 360px;
           background-color: #f2f2f2;
           border-radius: 10px;
           display: flex;
@@ -716,7 +715,7 @@ export default function Home() {
         }
 
         .about-card svg {
-          width: clamp(60px, 8vw, 100px);
+          width: 80px;
           fill: #333;
           transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -732,7 +731,7 @@ export default function Home() {
           left: 0;
           width: 100%;
           height: 100%;
-          padding: clamp(20px, 4vw, 50px);
+          padding: 40px;
           box-sizing: border-box;
           background-color: #f2f2f2;
           transform: rotateX(-90deg);
@@ -746,7 +745,7 @@ export default function Home() {
 
         .about-card__title {
           margin: 0;
-          font-size: clamp(24px, 4vw, 42px);
+          font-size: 32px;
           color: #333;
           font-weight: 700;
         }
@@ -756,17 +755,16 @@ export default function Home() {
         }
 
         .about-card__description {
-          margin: clamp(15px, 2vw, 25px) 0 0;
-          font-size: clamp(14px, 2vw, 20px);
+          margin: 20px 0 0;
+          font-size: 16px;
           color: #777;
           line-height: 1.6;
         }
 
         /* Contact Section Styles */
         .outer {
-          max-width: 600px;
-          width: 100%;
-          aspect-ratio: 6/5;
+          width: 550px;
+          height: 450px;
           border-radius: 10px;
           padding: 1px;
           background: radial-gradient(circle 230px at 0% 0%, #ffffff, #0c0d0d);
