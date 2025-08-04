@@ -374,7 +374,7 @@ export default function Home() {
                   </div>
                   <div className="contact-info">
                     <h3>Email</h3>
-                    <p>jewelry.designer@example.com</p>
+                    <p>asherdelman@gmail.com</p>
                   </div>
                 </div>
                 
@@ -398,7 +398,14 @@ export default function Home() {
                   </div>
                   <div className="contact-info">
                     <h3>LinkedIn</h3>
-                    <p>linkedin.com/in/jewelrydesigner</p>
+                    <a 
+                      href="https://www.linkedin.com/in/asher-delman" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="hover:text-white transition-colors duration-200"
+                    >
+                      linkedin.com/in/asher-delman
+                    </a>
                   </div>
                 </div>
               </div>
