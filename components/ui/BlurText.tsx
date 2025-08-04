@@ -1,7 +1,28 @@
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState, useMemo } from 'react';
 
-const buildKeyframes = (from: any, steps: any[]) => {
+interface AnimationState {
+  filter: string;
+  opacity: number;
+  y: number;
+}
+
+interface BlurTextProps {
+  text?: string;
+  delay?: number;
+  className?: string;
+  animateBy?: string;
+  direction?: string;
+  threshold?: number;
+  rootMargin?: string;
+  animationFrom?: AnimationState;
+  animationTo?: AnimationState[];
+  easing?: (t: number) => number;
+  onAnimationComplete?: () => void;
+  stepDuration?: number;
+}
+
+const buildKeyframes = (from: AnimationState, steps: AnimationState[]) => {
   const keys = new Set([
     ...Object.keys(from),
     ...steps.flatMap((s) => Object.keys(s)),
@@ -9,7 +30,7 @@ const buildKeyframes = (from: any, steps: any[]) => {
 
   const keyframes: any = {};
   keys.forEach((k) => {
-    keyframes[k] = [from[k], ...steps.map((s) => s[k])];
+    keyframes[k] = [from[k as keyof AnimationState], ...steps.map((s) => s[k as keyof AnimationState])];
   });
   return keyframes;
 };
@@ -27,10 +48,10 @@ const BlurText = ({
   easing = (t) => t,
   onAnimationComplete,
   stepDuration = 0.35,
-}) => {
+}: BlurTextProps) => {
   const elements = animateBy === 'words' ? text.split(' ') : text.split('');
   const [inView, setInView] = useState(false);
-  const ref = useRef(null);
+  const ref = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -38,7 +59,7 @@ const BlurText = ({
       ([entry]) => {
         if (entry.isIntersecting) {
           setInView(true);
-          observer.unobserve(ref.current);
+          observer.unobserve(ref.current!);
         }
       },
       { threshold, rootMargin }
@@ -91,7 +112,7 @@ const BlurText = ({
           times,
           delay: (index * delay) / 1000,
         };
-        (spanTransition).ease = easing;
+        (spanTransition as any).ease = easing;
 
         return (
           <motion.span
