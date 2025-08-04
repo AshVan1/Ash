@@ -1,5 +1,16 @@
 import React, { useEffect, useRef } from "react";
 
+interface FuzzyTextProps {
+  children: React.ReactNode;
+  fontSize?: string | number;
+  fontWeight?: number;
+  fontFamily?: string;
+  color?: string;
+  enableHover?: boolean;
+  baseIntensity?: number;
+  hoverIntensity?: number;
+}
+
 const FuzzyText = ({
   children,
   fontSize = "clamp(2rem, 10vw, 10rem)",
@@ -9,11 +20,11 @@ const FuzzyText = ({
   enableHover = true,
   baseIntensity = 0.18,
   hoverIntensity = 0.5,
-}) => {
-  const canvasRef = useRef(null);
+}: FuzzyTextProps) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    let animationFrameId;
+    let animationFrameId: number;
     let isCancelled = false;
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -34,7 +45,7 @@ const FuzzyText = ({
 
       const fontSizeStr =
         typeof fontSize === "number" ? `${fontSize}px` : fontSize;
-      let numericFontSize;
+      let numericFontSize: number;
       if (typeof fontSize === "number") {
         numericFontSize = fontSize;
       } else {
@@ -119,7 +130,7 @@ const FuzzyText = ({
 
       run();
 
-      const isInsideTextArea = (x, y) => {
+      const isInsideTextArea = (x: number, y: number) => {
         return (
           x >= interactiveLeft &&
           x <= interactiveRight &&
@@ -128,7 +139,7 @@ const FuzzyText = ({
         );
       };
 
-      const handleMouseMove = (e) => {
+      const handleMouseMove = (e: MouseEvent) => {
         if (!enableHover) return;
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -140,7 +151,7 @@ const FuzzyText = ({
         isHovering = false;
       };
 
-      const handleTouchMove = (e) => {
+      const handleTouchMove = (e: TouchEvent) => {
         if (!enableHover) return;
         e.preventDefault();
         const rect = canvas.getBoundingClientRect();
@@ -171,7 +182,7 @@ const FuzzyText = ({
         }
       };
 
-      canvas.cleanupFuzzyText = cleanup;
+      (canvas as any).cleanupFuzzyText = cleanup;
     };
 
     init();
@@ -179,8 +190,8 @@ const FuzzyText = ({
     return () => {
       isCancelled = true;
       window.cancelAnimationFrame(animationFrameId);
-      if (canvas && canvas.cleanupFuzzyText) {
-        canvas.cleanupFuzzyText();
+      if (canvas && (canvas as any).cleanupFuzzyText) {
+        (canvas as any).cleanupFuzzyText();
       }
     };
   }, [
