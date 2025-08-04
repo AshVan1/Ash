@@ -273,11 +273,6 @@ export default function Home() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: index * 0.1 }}
-                whileHover={{ 
-                  y: -15, 
-                  scale: 1.1,
-                  transition: { duration: 0.3, ease: "easeOut" }
-                }}
                 className="group cursor-pointer w-full"
               >
                 <div className="aspect-[4/5] flex items-center justify-center relative overflow-hidden w-full">
