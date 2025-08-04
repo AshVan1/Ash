@@ -116,6 +116,11 @@ export default function About() {
               className="text-3xl md:text-4xl font-bold text-white mb-8 font-['Helvetica']"
               delay={100}
               stepDuration={0.4}
+              animationFrom={{ filter: 'blur(10px)', opacity: 0, y: -50 }}
+              animationTo={[
+                { filter: 'blur(5px)', opacity: 0.5, y: 5 },
+                { filter: 'blur(0px)', opacity: 1, y: 0 }
+              ]}
             />
             <div className="space-y-6 text-gray-300 leading-relaxed text-lg font-['Helvetica']">
               <p>
