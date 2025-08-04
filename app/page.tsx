@@ -74,18 +74,15 @@ export default function Home() {
       >
         <div className="container mx-auto px-6">
           <div className="flex justify-between items-center">
-            {/* Left side - 3D Signature */}
+            {/* Left side - AD Logo */}
             <motion.div
               whileHover={{ scale: 1.05 }}
               className="relative"
             >
-              <div className="h-16 md:h-20 lg:h-24 w-32 md:w-40 lg:w-48">
-                <ChromeSignature3D 
-                  text="J. Cooper"
-                  size={0.7}
-                  height={0.08}
-                  className="w-full h-full"
-                />
+              <div className="h-16 md:h-20 lg:h-24 w-32 md:w-40 lg:w-48 flex items-center justify-start">
+                <span className="text-off-white text-2xl md:text-3xl lg:text-4xl font-bold tracking-wide hover:text-white transition-colors duration-200">
+                  AD
+                </span>
               </div>
             </motion.div>
 
@@ -101,13 +98,10 @@ export default function Home() {
                   })
                 }}
               >
-                <div className="h-18 w-44">
-                  <ChromeSignature3D 
-                    text="Portfolio"
-                    size={1.0}
-                    height={0.12}
-                    className="w-full h-full"
-                  />
+                <div className="h-18 w-44 flex items-center justify-center">
+                  <span className="text-off-white text-xl font-semibold tracking-wide hover:text-white transition-colors duration-200">
+                    Portfolio
+                  </span>
                 </div>
                 </motion.div>
               <Link href="/about">
@@ -115,13 +109,10 @@ export default function Home() {
                   whileHover={{ scale: 1.05 }}
                   className="cursor-pointer"
                 >
-                  <div className="h-18 w-40">
-                    <ChromeSignature3D 
-                      text="About"
-                      size={1.0}
-                      height={0.12}
-                      className="w-full h-full"
-                    />
+                  <div className="h-18 w-40 flex items-center justify-center">
+                    <span className="text-off-white text-xl font-semibold tracking-wide hover:text-white transition-colors duration-200">
+                      About
+                    </span>
                   </div>
                 </motion.div>
               </Link>
@@ -130,13 +121,10 @@ export default function Home() {
                   whileHover={{ scale: 1.05 }}
                   className="cursor-pointer"
                 >
-                  <div className="h-18 w-44">
-                    <ChromeSignature3D 
-                      text="Contact"
-                      size={1.0}
-                      height={0.12}
-                      className="w-full h-full"
-                    />
+                  <div className="h-18 w-44 flex items-center justify-center">
+                    <span className="text-off-white text-xl font-semibold tracking-wide hover:text-white transition-colors duration-200">
+                      Contact
+                    </span>
                   </div>
                 </motion.div>
               </Link>

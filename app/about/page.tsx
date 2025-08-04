@@ -13,7 +13,7 @@ const fadeInUp = {
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-gray-900 to-slate-900 relative">
+    <div className="min-h-screen bg-black relative">
       {/* Sparkle Particles Background */}
       <div className="absolute inset-0 z-0">
         <SparkleParticles
@@ -43,19 +43,16 @@ export default function About() {
       >
         <div className="container mx-auto px-6">
           <div className="flex justify-between items-center">
-            {/* Left side - 3D Signature */}
+            {/* Left side - AD Logo */}
             <Link href="/">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 className="relative cursor-pointer"
               >
-                <div className="h-16 md:h-20 lg:h-24 w-32 md:w-40 lg:w-48">
-                  <ChromeSignature3D 
-                    text="J. Cooper"
-                    size={0.7}
-                    height={0.08}
-                    className="w-full h-full"
-                  />
+                <div className="h-16 md:h-20 lg:h-24 w-32 md:w-40 lg:w-48 flex items-center justify-start">
+                  <span className="text-white text-2xl md:text-3xl lg:text-4xl font-bold tracking-wide">
+                    AD
+                  </span>
                 </div>
               </motion.div>
             </Link>
@@ -73,35 +70,26 @@ export default function About() {
                   })
                 }}
               >
-                <div className="h-18 w-44">
-                  <ChromeSignature3D 
-                    text="Portfolio"
-                    size={1.0}
-                    height={0.12}
-                    className="w-full h-full"
-                  />
+                <div className="h-18 w-44 flex items-center justify-center">
+                  <span className="text-white text-xl font-semibold tracking-wide">
+                    Portfolio
+                  </span>
                 </div>
                 </motion.div>
-                <div className="h-18 w-40">
-                  <ChromeSignature3D 
-                    text="About"
-                    size={1.0}
-                    height={0.12}
-                    className="w-full h-full"
-                  />
+                <div className="h-18 w-40 flex items-center justify-center">
+                  <span className="text-white text-xl font-semibold tracking-wide">
+                    About
+                  </span>
                 </div>
               <Link href="/contact">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   className="cursor-pointer"
                 >
-                  <div className="h-18 w-44">
-                    <ChromeSignature3D 
-                      text="Contact"
-                      size={1.0}
-                      height={0.12}
-                      className="w-full h-full"
-                    />
+                  <div className="h-18 w-44 flex items-center justify-center">
+                    <span className="text-white text-xl font-semibold tracking-wide">
+                      Contact
+                    </span>
                   </div>
                 </motion.div>
               </Link>
