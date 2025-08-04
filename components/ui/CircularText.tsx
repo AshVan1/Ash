@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { motion, useAnimation, useMotionValue } from "framer-motion";
 
-const getRotationTransition = (duration, from, loop = true) => ({
+const getRotationTransition = (duration: number, from: number, loop: boolean = true) => ({
   from,
   to: from + 360,
   ease: "linear",
@@ -10,7 +10,7 @@ const getRotationTransition = (duration, from, loop = true) => ({
   repeat: loop ? Infinity : 0,
 });
 
-const getTransition = (duration, from) => ({
+const getTransition = (duration: number, from: number) => ({
   rotate: getRotationTransition(duration, from),
   scale: {
     type: "spring",
@@ -19,12 +19,19 @@ const getTransition = (duration, from) => ({
   },
 });
 
+interface CircularTextProps {
+  text: string;
+  spinDuration?: number;
+  onHover?: "speedUp" | "slowDown" | "pause" | "goBonkers";
+  className?: string;
+}
+
 const CircularText = ({
   text,
   spinDuration = 20,
   onHover = "speedUp",
   className = "",
-}) => {
+}: CircularTextProps) => {
   const letters = Array.from(text);
   const controls = useAnimation();
   const rotation = useMotionValue(0);
