@@ -77,13 +77,45 @@ export default function Home() {
     return () => clearTimeout(timer)
   }, [])
 
-  // Handle 3D models loading with 1-second delay
+  // Handle 3D models loading with optimized performance
   useEffect(() => {
+    // Use a shorter delay for better perceived performance
     const timer = setTimeout(() => {
       setModelsLoading(false)
-    }, 1000) // 1-second delay for model rendering
+    }, 500) // Reduced from 1000ms to 500ms for better UX
     return () => clearTimeout(timer)
   }, [currentPage]) // Reset when page changes
+
+  // Preload next page models for smoother navigation
+  useEffect(() => {
+    const preloadNextModels = async () => {
+      const nextPage = (currentPage + 1) % totalPages
+      const nextModels = allModels[nextPage]
+      
+      // Preload STL files in background
+      try {
+        const { STLLoader } = await import('three/addons/loaders/STLLoader.js')
+        const loader = new STLLoader()
+        
+        nextModels.forEach(model => {
+          // Create a hidden loader to preload the model
+          const tempLoader = new STLLoader()
+          tempLoader.load(model.path, () => {
+            // Model preloaded successfully
+          }, undefined, () => {
+            // Silent fail for preloading
+          })
+        })
+      } catch (error) {
+        // Silent fail for preloading
+      }
+    }
+
+    // Preload after current models are loaded
+    if (!modelsLoading) {
+      preloadNextModels()
+    }
+  }, [currentPage, modelsLoading, allModels, totalPages])
 
   // Handle scroll-based navigation highlighting
   useEffect(() => {
@@ -253,7 +285,12 @@ export default function Home() {
                   scale: 1.1,
                   transition: { duration: 0.2, ease: "easeOut" }
                 }}
-                className="group cursor-pointer w-full"
+                className="group cursor-pointer w-full model-container"
+                style={{
+                  contentVisibility: 'auto',
+                  containIntrinsicSize: '400px',
+                  willChange: 'transform, opacity'
+                }}
               >
                 <div className="aspect-[4/5] flex items-center justify-center relative overflow-hidden w-full">
                   <div className="w-full h-full">
@@ -592,6 +629,7 @@ export default function Home() {
           align-items: center;
           border-radius: 50%;
           margin-left: -75px;
+          will-change: transform;
         }
 
         .spinner span {
@@ -603,6 +641,7 @@ export default function Home() {
           background: #ffff;
           animation: dominos 1s ease infinite;
           box-shadow: 2px 2px 3px 0px black;
+          will-change: transform, opacity;
         }
 
         .spinner span:nth-child(1) {
@@ -644,6 +683,19 @@ export default function Home() {
           left: 10px;
         }
 
+        /* 3D Model Container Optimizations */
+        .model-container {
+          content-visibility: auto;
+          contain-intrinsic-size: 400px;
+          contain: layout style paint;
+          will-change: transform, opacity;
+        }
+
+        .model-container:hover {
+          will-change: transform;
+        }
+
+        /* Optimize animations for better performance */
         @keyframes dominos {
           50% {
             opacity: 0.7;
