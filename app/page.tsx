@@ -170,7 +170,7 @@ export default function Home() {
                 }}
               >
                 <div className="h-18 w-44 flex items-center justify-center">
-                  <span className={`text-lg font-bold tracking-wide transition-colors duration-200 uppercase font-['Oxygen', sans-serif] ${
+                  <span className={`text-xl font-bold tracking-wide transition-colors duration-200 uppercase font-['Oxygen', sans-serif] ${
                     activeSection === "portfolio" 
                       ? "text-white" 
                       : "text-off-white hover:text-white"
@@ -194,7 +194,7 @@ export default function Home() {
                 }}
               >
                 <div className="h-18 w-40 flex items-center justify-center">
-                  <span className={`text-lg font-bold tracking-wide transition-colors duration-200 uppercase font-['Oxygen', sans-serif] ${
+                  <span className={`text-xl font-bold tracking-wide transition-colors duration-200 uppercase font-['Oxygen', sans-serif] ${
                     activeSection === "about" 
                       ? "text-white" 
                       : "text-off-white hover:text-white"
@@ -218,7 +218,7 @@ export default function Home() {
                 }}
               >
                 <div className="h-18 w-44 flex items-center justify-center">
-                  <span className={`text-lg font-bold tracking-wide transition-colors duration-200 uppercase font-['Oxygen', sans-serif] ${
+                  <span className={`text-xl font-bold tracking-wide transition-colors duration-200 uppercase font-['Oxygen', sans-serif] ${
                     activeSection === "contact" 
                       ? "text-white" 
                       : "text-off-white hover:text-white"
@@ -274,8 +274,8 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: index * 0.1 }}
                 whileHover={{ 
-                  y: -25, 
-                  scale: 1.2,
+                  y: -15, 
+                  scale: 1.1,
                   transition: { duration: 0.3, ease: "easeOut" }
                 }}
                 className="group cursor-pointer w-full"
@@ -339,10 +339,10 @@ export default function Home() {
             viewport={{ once: true }}
             className="pt-16"
           >
-            <h2 className="text-3xl font-bold text-white mb-8 font-['Helvetica']">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 font-['Helvetica']">
               My Journey in Jewelry Design
             </h2>
-            <div className="space-y-6 text-gray-300 leading-relaxed text-lg font-['Helvetica']">
+            <div className="space-y-6 text-gray-300 leading-relaxed text-xl font-['Helvetica']">
               <p>
                 With a passion for merging traditional craftsmanship with contemporary innovation, 
                 I create jewelry pieces that tell stories and capture emotions. Each design is born 
@@ -701,8 +701,8 @@ export default function Home() {
         /* About Section Card Styles */
         .about-card {
           position: relative;
-          width: 450px;
-          height: 360px;
+          width: 500px;
+          height: 400px;
           background-color: #f2f2f2;
           border-radius: 10px;
           display: flex;
@@ -715,7 +715,7 @@ export default function Home() {
         }
 
         .about-card svg {
-          width: 80px;
+          width: 100px;
           fill: #333;
           transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -731,7 +731,7 @@ export default function Home() {
           left: 0;
           width: 100%;
           height: 100%;
-          padding: 40px;
+          padding: 50px;
           box-sizing: border-box;
           background-color: #f2f2f2;
           transform: rotateX(-90deg);
@@ -745,7 +745,7 @@ export default function Home() {
 
         .about-card__title {
           margin: 0;
-          font-size: 32px;
+          font-size: 42px;
           color: #333;
           font-weight: 700;
         }
@@ -755,16 +755,16 @@ export default function Home() {
         }
 
         .about-card__description {
-          margin: 20px 0 0;
-          font-size: 16px;
+          margin: 25px 0 0;
+          font-size: 20px;
           color: #777;
           line-height: 1.6;
         }
 
         /* Contact Section Styles */
         .outer {
-          width: 550px;
-          height: 450px;
+          width: 600px;
+          height: 500px;
           border-radius: 10px;
           padding: 1px;
           background: radial-gradient(circle 230px at 0% 0%, #ffffff, #0c0d0d);
