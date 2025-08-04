@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { JewelryHeroSection } from '@/components/ui/jewelry-hero-section'
 import ChromeSignature3D from '@/components/ui/ChromeSignature3D'
 import ColoredModel from '@/components/ui/ColoredModel'
@@ -11,6 +11,8 @@ import CircularText from '@/components/ui/CircularText'
 export default function Home() {
   const [selectedColor, setSelectedColor] = useState<string>("#C0C0C0") // Default silver
   const [currentPage, setCurrentPage] = useState(0) // Track which 4 models to show
+  const [isLoading, setIsLoading] = useState(true) // Loading state
+  const [modelsLoading, setModelsLoading] = useState(true) // 3D models loading state
 
   const getColorForSelection = (colorName: string) => {
     switch(colorName) {
@@ -58,14 +60,41 @@ export default function Home() {
 
   const handleViewMore = () => {
     setCurrentPage((prev) => (prev + 1) % totalPages)
+    setModelsLoading(true) // Reset loading state when changing pages
   }
 
   const handleViewPrevious = () => {
     setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages)
+    setModelsLoading(true) // Reset loading state when changing pages
   }
+
+  // Hide loading state after a short delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 100) // Very short delay to show loading state
+    return () => clearTimeout(timer)
+  }, [])
+
+  // Handle 3D models loading with 1-second delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setModelsLoading(false)
+    }, 1000) // 1-second delay for model rendering
+    return () => clearTimeout(timer)
+  }, [currentPage]) // Reset when page changes
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-gray-900 to-slate-900">
+      {/* Loading State */}
+      {isLoading && (
+        <div className="fixed inset-0 z-50 bg-gradient-to-br from-slate-950 via-gray-900 to-slate-900 flex items-center justify-center">
+          <div className="text-off-white text-2xl font-bold animate-pulse">
+            Loading...
+          </div>
+        </div>
+      )}
+
       {/* 3D Jewelry Hero Section */}
       <JewelryHeroSection />
 
@@ -143,55 +172,87 @@ export default function Home() {
       {/* Portfolio Preview Section - positioned after 3D hero */}
       <section id="portfolio" className="py-24 container mx-auto px-4 relative z-10" style={{ marginTop: '300vh' }}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-          {currentModels.map((model, index) => (
-            <motion.div
-              key={`${currentPage}-${index}`}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
-              whileHover={{ y: -10, scale: 1.02 }}
-              className="group"
-            >
-              <div className="relative overflow-hidden rounded-3xl">
-                <div className="aspect-[4/5] flex items-center justify-center relative overflow-hidden">
-                  <div className="w-full h-full">
-                    <ColoredModel 
-                      modelPath={model.path}
-                      scale={1.5}
-                      rotationSpeed={0.3}
-                      color={selectedColor}
-                      className="w-full h-full"
-                    />
+          {modelsLoading ? (
+            // Show 4 loading spinners for the 4 model slots
+            <>
+              {[0, 1, 2, 3].map((index) => (
+                <motion.div
+                  key={`loading-${index}`}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: index * 0.1 }}
+                  className="group"
+                >
+                  <div className="relative overflow-hidden rounded-3xl">
+                    <div className="aspect-[4/5] flex items-center justify-center relative overflow-hidden">
+                      <div className="spinner">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </>
+          ) : (
+            currentModels.map((model, index) => (
+              <motion.div
+                key={`${currentPage}-${index}`}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                whileHover={{ y: -10, scale: 1.02 }}
+                className="group"
+              >
+                <div className="relative overflow-hidden rounded-3xl">
+                  <div className="aspect-[4/5] flex items-center justify-center relative overflow-hidden">
+                    <div className="w-full h-full">
+                      <ColoredModel 
+                        modelPath={model.path}
+                        scale={1.5}
+                        rotationSpeed={0.3}
+                        color={selectedColor}
+                        className="w-full h-full"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))
+          )}
         </div>
 
         {/* Navigation Controls */}
-        <div className="flex justify-center items-center mt-12 space-x-6">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+        <div className="flex justify-center items-center mt-12 space-x-12">
+          <button
             onClick={handleViewPrevious}
-            className="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-off-white rounded-lg transition-colors duration-200 font-bold uppercase tracking-wide"
+            className="custom-nav-button"
           >
-            Previous
-          </motion.button>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <p data-text="Back">Back</p>
+          </button>
 
-          <div className="text-off-white text-lg font-bold">
+          <div className="text-off-white text-lg font-bold mx-8">
             {currentPage + 1} / {totalPages}
           </div>
 
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          <button
             onClick={handleViewMore}
-            className="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-off-white rounded-lg transition-colors duration-200 font-bold uppercase tracking-wide"
+            className="custom-nav-button"
           >
-            View More
-          </motion.button>
+            <p data-text="Next">Next</p>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
         </div>
       </section>
 
@@ -296,6 +357,152 @@ export default function Home() {
           box-shadow:
             0 0 18px rgba(160, 216, 255, 0.5),
             0 0 10px rgba(200, 240, 255, 0.4) inset;
+        }
+
+        /* Custom Navigation Buttons */
+        .custom-nav-button {
+          padding: 0;
+          margin: 0;
+          border: none;
+          background: none;
+          cursor: pointer;
+        }
+
+        .custom-nav-button {
+          --primary-color: #FAF9F6;
+          --hovered-color: #C0C0C0;
+          position: relative;
+          display: flex;
+          font-weight: 600;
+          font-size: 20px;
+          gap: 0.5rem;
+          align-items: center;
+        }
+
+        .custom-nav-button p {
+          margin: 0;
+          position: relative;
+          font-size: 20px;
+          color: var(--primary-color);
+        }
+
+        .custom-nav-button::after {
+          position: absolute;
+          content: "";
+          width: 0;
+          left: 0;
+          bottom: -7px;
+          background: var(--hovered-color);
+          height: 2px;
+          transition: 0.3s ease-out;
+        }
+
+        .custom-nav-button p::before {
+          position: absolute;
+          content: attr(data-text);
+          width: 0%;
+          inset: 0;
+          color: var(--hovered-color);
+          overflow: hidden;
+          transition: 0.3s ease-out;
+        }
+
+        .custom-nav-button:hover::after {
+          width: 100%;
+        }
+
+        .custom-nav-button:hover p::before {
+          width: 100%;
+        }
+
+        .custom-nav-button:hover svg {
+          transform: translateX(4px);
+          color: var(--hovered-color);
+        }
+
+        .custom-nav-button svg {
+          color: var(--primary-color);
+          transition: 0.2s;
+          position: relative;
+          width: 15px;
+          transition-delay: 0.2s;
+        }
+
+        /* Domino Spinner Animation */
+        .spinner {
+          position: relative;
+          width: 60px;
+          height: 60px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 50%;
+          margin-left: -75px;
+        }
+
+        .spinner span {
+          position: absolute;
+          top: 50%;
+          left: var(--left);
+          width: 35px;
+          height: 7px;
+          background: #ffff;
+          animation: dominos 1s ease infinite;
+          box-shadow: 2px 2px 3px 0px black;
+        }
+
+        .spinner span:nth-child(1) {
+          --left: 80px;
+          animation-delay: 0.125s;
+        }
+
+        .spinner span:nth-child(2) {
+          --left: 70px;
+          animation-delay: 0.3s;
+        }
+
+        .spinner span:nth-child(3) {
+          left: 60px;
+          animation-delay: 0.425s;
+        }
+
+        .spinner span:nth-child(4) {
+          animation-delay: 0.54s;
+          left: 50px;
+        }
+
+        .spinner span:nth-child(5) {
+          animation-delay: 0.665s;
+          left: 40px;
+        }
+
+        .spinner span:nth-child(6) {
+          animation-delay: 0.79s;
+          left: 30px;
+        }
+
+        .spinner span:nth-child(7) {
+          animation-delay: 0.915s;
+          left: 20px;
+        }
+
+        .spinner span:nth-child(8) {
+          left: 10px;
+        }
+
+        @keyframes dominos {
+          50% {
+            opacity: 0.7;
+          }
+
+          75% {
+            -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+          }
+
+          80% {
+            opacity: 1;
+          }
         }
       `}</style>
     </div>

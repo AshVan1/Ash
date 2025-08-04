@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
 import ChromeSignature3D from '@/components/ui/ChromeSignature3D'
 import { SparkleParticles } from '@/components/ui/SparkleParticles'
 import BlurText from '@/components/ui/BlurText'
@@ -13,8 +14,27 @@ const fadeInUp = {
 }
 
 export default function About() {
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Hide loading state after a short delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 100)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <div className="min-h-screen bg-black relative">
+      {/* Loading State */}
+      {isLoading && (
+        <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
+          <div className="text-white text-2xl font-bold animate-pulse">
+            Loading...
+          </div>
+        </div>
+      )}
+
       {/* Sparkle Particles Background */}
       <div className="absolute inset-0 z-0">
         <SparkleParticles
@@ -104,12 +124,13 @@ export default function About() {
 
       {/* About Content */}
       <section className="pt-32 pb-16 container mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start pt-32">
           <motion.div
             variants={fadeInUp}
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
+            className="pt-20"
           >
             <BlurText 
               text="My Journey in Jewelry Design" 
@@ -123,7 +144,7 @@ export default function About() {
               ]}
               onAnimationComplete={() => {}}
             />
-            <div className="space-y-6 text-gray-300 leading-relaxed text-lg font-['Helvetica']">
+            <div className="space-y-6 text-gray-300 leading-relaxed text-xl font-['Helvetica']">
               <p>
                 With a passion for merging traditional craftsmanship with contemporary innovation, 
                 I create jewelry pieces that tell stories and capture emotions. Each design is born 
@@ -149,15 +170,88 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="relative"
+            className="relative pt-8 flex justify-end"
           >
-            <div className="aspect-square bg-gradient-to-br from-slate-700 to-slate-800 rounded-2xl border border-slate-600/50 flex items-center justify-center relative overflow-hidden">
-              <div className="w-48 h-48 bg-gradient-to-br from-silver-400 to-silver-600 rounded-full opacity-50 floating" />
-              <div className="absolute inset-0 shimmer opacity-20" />
+            <div className="card">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                <path d="M2 17L12 22L22 17"/>
+                <path d="M2 12L12 17L22 12"/>
+              </svg>
+              <div className="card__content">
+                <h3 className="card__title">Jewelry Designer</h3>
+                <p className="card__description">
+                  Passionate about creating unique pieces that blend traditional craftsmanship with modern innovation. Each design tells a story and captures the essence of the wearer.
+                </p>
+              </div>
             </div>
           </motion.div>
         </div>
       </section>
+
+      <style jsx>{`
+        .card {
+          position: relative;
+          width: 600px;
+          height: 500px;
+          background-color: #f2f2f2;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          perspective: 1000px;
+          box-shadow: 0 0 0 5px #ffffff80;
+          transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .card svg {
+          width: 100px;
+          fill: #333;
+          transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .card:hover {
+          transform: scale(1.05);
+          box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+        }
+
+        .card__content {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          padding: 50px;
+          box-sizing: border-box;
+          background-color: #f2f2f2;
+          transform: rotateX(-90deg);
+          transform-origin: bottom;
+          transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .card:hover .card__content {
+          transform: rotateX(0deg);
+        }
+
+        .card__title {
+          margin: 0;
+          font-size: 42px;
+          color: #333;
+          font-weight: 700;
+        }
+
+        .card:hover svg {
+          scale: 0;
+        }
+
+        .card__description {
+          margin: 25px 0 0;
+          font-size: 20px;
+          color: #777;
+          line-height: 1.6;
+        }
+      `}</style>
     </div>
   )
 } 
