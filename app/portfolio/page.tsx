@@ -130,7 +130,7 @@ export default function Portfolio() {
               >
                 <div className="h-16 md:h-20 lg:h-24 w-32 md:w-40 lg:w-48">
                   <ChromeSignature3D 
-                    text="J. Cooper"
+                    text="Asher Delman"
                     size={0.7}
                     height={0.08}
                     className="w-full h-full"

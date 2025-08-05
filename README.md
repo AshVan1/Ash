@@ -1,6 +1,6 @@
-# J. Cooper Jewelry Portfolio
+# Asher Delman Jewelry Portfolio
 
-A modern, minimalist portfolio website for jewelry designer J. Cooper, featuring interactive 3D models with liquid chrome effects and elegant animations.
+A modern, minimalist portfolio website for jewelry designer Asher Delman, featuring interactive 3D models with liquid chrome effects and elegant animations.
 
 ## Features
 

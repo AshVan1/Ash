@@ -5,8 +5,8 @@ import '../styles/globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'J. Cooper Jewelry Portfolio',
-  description: 'A modern jewelry portfolio showcasing 3D models and contemporary designs',
+  title: 'Asher Delman Jewelry Portfolio',
+  description: 'A modern, minimalist portfolio website for jewelry designer Asher Delman, featuring interactive 3D models with liquid chrome effects and elegant animations.',
 }
 
 export default function RootLayout({

@@ -13,7 +13,7 @@ interface ChromeSignature3DProps {
 }
 
 function Signature3D({ 
-  text = "J. Cooper", 
+  text = "Asher Delman", 
   size = 1, 
   height = 0.2
 }: { 
@@ -62,6 +62,7 @@ export default function ChromeSignature3D({
   height = 0.2,
   className = ""
 }: ChromeSignature3DProps) {
+  const [text, setText] = useState<string>("Asher Delman")
   return (
     <div className={`w-full h-full ${className}`}>
       <Canvas

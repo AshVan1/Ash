@@ -16,6 +16,7 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState<string>("") // Track active section - start with none
   const [showScrollIndicator, setShowScrollIndicator] = useState(true) // Track scroll indicator visibility
   const [showModelsText, setShowModelsText] = useState(false) // Track "models below" text visibility
+  const [hasReachedPortfolio, setHasReachedPortfolio] = useState(false) // Track if user has reached portfolio section
 
   const getColorForSelection = (colorName: string) => {
     switch(colorName) {
@@ -79,13 +80,15 @@ export default function Home() {
     return () => clearTimeout(timer)
   }, [])
 
-  // Handle 3D models loading with 1-second delay
+  // Handle 3D models loading with 1-second delay (only for page changes)
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setModelsLoading(false)
-    }, 1000) // 1-second delay for model rendering
-    return () => clearTimeout(timer)
-  }, [currentPage]) // Reset when page changes
+    if (hasReachedPortfolio) {
+      const timer = setTimeout(() => {
+        setModelsLoading(false)
+      }, 1000) // 1-second delay for model rendering when changing pages
+      return () => clearTimeout(timer)
+    }
+  }, [currentPage, hasReachedPortfolio]) // Reset when page changes, but only if user has reached portfolio
 
   // Handle scroll-based navigation highlighting
   useEffect(() => {
@@ -117,6 +120,15 @@ export default function Home() {
         // Only highlight portfolio when actually in the portfolio section
         if (scrollPosition >= portfolioTop && scrollPosition < aboutTop) {
           setActiveSection("portfolio")
+          // Set hasReachedPortfolio to true when user first enters portfolio section
+          if (!hasReachedPortfolio) {
+            setHasReachedPortfolio(true)
+            setModelsLoading(true) // Start loading animation
+            // Show loading for 3 seconds when first reaching portfolio
+            setTimeout(() => {
+              setModelsLoading(false)
+            }, 3000)
+          }
         } else if (scrollPosition >= aboutTop && scrollPosition < contactTop) {
           setActiveSection("about")
         } else if (scrollPosition >= contactTop) {
@@ -157,6 +169,9 @@ export default function Home() {
         >
           <div className="models-text">
             models below
+            <div className="loading-text">
+              Loading times may vary
+            </div>
           </div>
         </motion.div>
       )}
@@ -369,10 +384,6 @@ export default function Home() {
           </button>
         </div>
         
-        {/* Loading times notice */}
-        <div className="text-center mt-4">
-          <p className="text-black text-xs">Loading times may vary</p>
-        </div>
       </section>
 
       {/* About Section */}
@@ -882,11 +893,22 @@ export default function Home() {
         .models-text {
           color: #000000;
           font-size: 24px;
-          font-weight: 500;
+          font-weight: 700;
           letter-spacing: 0.2em;
-          text-transform: lowercase;
+          text-transform: uppercase;
+          font-family: 'Oxygen', sans-serif;
+          text-align: center;
+        }
+
+        .loading-text {
+          color: #000000;
+          font-size: 12px;
+          font-weight: 400;
+          letter-spacing: 0.1em;
+          text-transform: none;
           font-family: 'Helvetica', sans-serif;
           text-align: center;
+          margin-top: 8px;
         }
 
         /* Contact Section Styles */
