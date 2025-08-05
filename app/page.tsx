@@ -124,10 +124,10 @@ export default function Home() {
           if (!hasReachedPortfolio) {
             setHasReachedPortfolio(true)
             setModelsLoading(true) // Start loading animation
-            // Show loading for 3 seconds when first reaching portfolio
+            // Show loading for 2 seconds when first reaching portfolio
             setTimeout(() => {
               setModelsLoading(false)
-            }, 3000)
+            }, 2000)
           }
         } else if (scrollPosition >= aboutTop && scrollPosition < contactTop) {
           setActiveSection("about")
@@ -518,18 +518,16 @@ export default function Home() {
               <div>© 2025 Asher Delman. All rights reserved.</div>
               <div className="flex items-center gap-2 mt-1 text-gray-400">
                 <span>Website developed and designed by Oscar Salerno</span>
-                <a href="mailto:osalerno@email.com" className="hover:text-white" title="Email Oscar" style={{fontSize: '1rem', display: 'flex', alignItems: 'center'}}>
+                <a href="mailto:osalerno@Browning.edu" className="hover:text-white" title="Email Oscar" style={{fontSize: '1rem', display: 'flex', alignItems: 'center'}}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M22 6L12 13L2 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 </a>
-                <a href="https://www.linkedin.com/in/oscar-salerno" className="hover:text-white" title="Oscar's LinkedIn" target="_blank" rel="noopener noreferrer" style={{fontSize: '1rem', display: 'flex', alignItems: 'center'}}>
+                <a href="https://www.linkedin.com/in/oscar-salerno-406423341/" className="hover:text-white" title="Oscar's LinkedIn" target="_blank" rel="noopener noreferrer" style={{fontSize: '1rem', display: 'flex', alignItems: 'center'}}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" fill="currentColor"/></svg>
                 </a>
               </div>
             </div>
             <div className="flex space-x-6">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">Instagram</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">LinkedIn</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">Behance</a>
+              <a href="https://www.instagram.com/oscarasalerno/?next=%2F" className="text-gray-400 hover:text-white transition-colors duration-200" target="_blank" rel="noopener noreferrer">Instagram</a>
             </div>
           </div>
         </div>
