@@ -14,6 +14,8 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true) // Loading state
   const [modelsLoading, setModelsLoading] = useState(true) // 3D models loading state
   const [activeSection, setActiveSection] = useState<string>("") // Track active section - start with none
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true) // Track scroll indicator visibility
+  const [showModelsText, setShowModelsText] = useState(false) // Track "models below" text visibility
 
   const getColorForSelection = (colorName: string) => {
     switch(colorName) {
@@ -42,7 +44,7 @@ export default function Home() {
     ],
     // Page 2: Next 4 models
     [
-      { path: "/New idea.stl", name: "New Idea" },
+      { path: "/Isabel (Size 7.5).stl", name: "Isabel Size" },
       { path: "/notre damn.stl", name: "Notre Damn" },
       { path: "/Ring (~recovered).stl", name: "Ring Recovered" },
       { path: "/rng.stl", name: "RNG Model" }
@@ -90,6 +92,11 @@ export default function Home() {
     const handleScroll = () => {
       const scrollPosition = window.scrollY + window.innerHeight / 2
 
+      // Hide scroll indicator as soon as user starts scrolling
+      if (window.scrollY > 0) {
+        setShowScrollIndicator(false)
+      }
+
       // Get section positions
       const portfolioSection = document.getElementById('portfolio')
       const aboutSection = document.getElementById('about')
@@ -99,6 +106,13 @@ export default function Home() {
         const portfolioTop = portfolioSection.offsetTop
         const aboutTop = aboutSection.offsetTop
         const contactTop = contactSection.offsetTop
+
+        // Show "models below" text when approaching portfolio section
+        if (scrollPosition >= portfolioTop - (window.innerHeight * 2) && scrollPosition < portfolioTop - window.innerHeight) {
+          setShowModelsText(true)
+        } else {
+          setShowModelsText(false)
+        }
 
         // Only highlight portfolio when actually in the portfolio section
         if (scrollPosition >= portfolioTop && scrollPosition < aboutTop) {
@@ -131,6 +145,43 @@ export default function Home() {
 
       {/* 3D Jewelry Hero Section */}
       <JewelryHeroSection />
+
+      {/* Models Below Text */}
+      {showModelsText && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.5 }}
+          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none"
+        >
+          <div className="models-text">
+            models below
+          </div>
+        </motion.div>
+      )}
+
+      {/* Scroll Indicator */}
+      {showScrollIndicator && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ delay: 3, duration: 1 }}
+          className="fixed top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 pointer-events-none"
+        >
+          <div className="scroll-indicator">
+            <div className="mouse">
+              <div className="wheel"></div>
+            </div>
+            <div className="arrow">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </motion.div>
+      )}
 
       {/* Navigation */}
       <motion.nav 
@@ -365,17 +416,22 @@ export default function Home() {
             viewport={{ once: true }}
             className="relative pt-12 flex justify-end"
           >
-            <div className="about-card">
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
-                <path d="M2 17L12 22L22 17"/>
-                <path d="M2 12L12 17L22 12"/>
-              </svg>
-              <div className="about-card__content">
-                <h3 className="about-card__title">Jewelry Designer</h3>
-                <p className="about-card__description">
-                  Passionate about creating unique pieces that blend traditional craftsmanship with modern innovation. Each design tells a story and captures the essence of the wearer.
-                </p>
+            <div className="photo-card">
+              <div className="photo-container">
+                <img 
+                  src="/DSC04639.jpeg" 
+                  alt="Jewelry Design Work" 
+                  className="photo-main"
+                  onLoad={() => console.log('DSC04639.jpeg loaded successfully')}
+                  onError={(e) => console.error('DSC04639.jpeg failed to load:', e)}
+                />
+                <img 
+                  src="/DSC04434.jpeg" 
+                  alt="Jewelry Design Work Hover" 
+                  className="photo-hover"
+                  onLoad={() => console.log('DSC04434.jpeg loaded successfully')}
+                  onError={(e) => console.error('DSC04434.jpeg failed to load:', e)}
+                />
               </div>
             </div>
           </motion.div>
@@ -693,67 +749,144 @@ export default function Home() {
           }
         }
 
-        /* About Section Card Styles */
-        .about-card {
+        /* Photo Card Styles */
+        .photo-card {
           position: relative;
           width: 500px;
           height: 400px;
-          background-color: #f2f2f2;
           border-radius: 10px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
           overflow: hidden;
           perspective: 1000px;
-          box-shadow: 0 0 0 5px #ffffff80;
           transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .about-card svg {
-          width: 100px;
-          fill: #333;
-          transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .about-card:hover {
+        .photo-card:hover {
           transform: scale(1.05);
-          box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
         }
 
-        .about-card__content {
+        .photo-container {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+        }
+
+        .photo-main,
+        .photo-hover {
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
           height: 100%;
-          padding: 50px;
-          box-sizing: border-box;
-          background-color: #f2f2f2;
-          transform: rotateX(-90deg);
-          transform-origin: bottom;
+          object-fit: cover;
           transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .about-card:hover .about-card__content {
-          transform: rotateX(0deg);
+        .photo-main {
+          opacity: 1;
+          transform: rotateY(0deg);
         }
 
-        .about-card__title {
-          margin: 0;
-          font-size: 42px;
-          color: #333;
-          font-weight: 700;
+        .photo-hover {
+          opacity: 0;
+          transform: rotateY(90deg);
         }
 
-        .about-card:hover svg {
-          scale: 0;
+        .photo-card:hover .photo-main {
+          opacity: 0;
+          transform: rotateY(-90deg);
         }
 
-        .about-card__description {
-          margin: 25px 0 0;
-          font-size: 20px;
-          color: #777;
-          line-height: 1.6;
+        .photo-card:hover .photo-hover {
+          opacity: 1;
+          transform: rotateY(0deg);
+        }
+
+        /* Scroll Indicator Styles */
+        .scroll-indicator {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .mouse {
+          width: 30px;
+          height: 50px;
+          border: 2px solid #ffffff;
+          border-radius: 20px;
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          padding-top: 8px;
+        }
+
+        .wheel {
+          width: 4px;
+          height: 8px;
+          background-color: #ffffff;
+          border-radius: 2px;
+          animation: scroll 2s infinite;
+        }
+
+        @keyframes scroll {
+          0% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(-15px);
+          }
+        }
+
+        .arrow {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 2px;
+        }
+
+        .arrow span {
+          width: 2px;
+          height: 8px;
+          background-color: #ffffff;
+          border-radius: 1px;
+          animation: arrow 2s infinite;
+        }
+
+        .arrow span:nth-child(1) {
+          animation-delay: 0s;
+        }
+
+        .arrow span:nth-child(2) {
+          animation-delay: 0.2s;
+        }
+
+        .arrow span:nth-child(3) {
+          animation-delay: 0.4s;
+        }
+
+        @keyframes arrow {
+          0%, 100% {
+            opacity: 0;
+            transform: translateY(0);
+          }
+          50% {
+            opacity: 1;
+            transform: translateY(-5px);
+          }
+        }
+
+        /* Models Text Styles */
+        .models-text {
+          color: #000000;
+          font-size: 24px;
+          font-weight: 500;
+          letter-spacing: 0.2em;
+          text-transform: lowercase;
+          font-family: 'Helvetica', sans-serif;
+          text-align: center;
         }
 
         /* Contact Section Styles */

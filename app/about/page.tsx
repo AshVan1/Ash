@@ -130,7 +130,7 @@ export default function About() {
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
-            className="pt-16"
+            className="pt-16 lg:col-span-1"
           >
             <BlurText 
               text="My Journey in Jewelry Design" 
@@ -170,19 +170,24 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="relative pt-4 flex justify-end"
+            className="relative pt-4 flex justify-end items-center lg:col-span-1"
           >
-            <div className="card">
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
-                <path d="M2 17L12 22L22 17"/>
-                <path d="M2 12L12 17L22 12"/>
-              </svg>
-              <div className="card__content">
-                <h3 className="card__title">Jewelry Designer</h3>
-                <p className="card__description">
-                  Passionate about creating unique pieces that blend traditional craftsmanship with modern innovation. Each design tells a story and captures the essence of the wearer.
-                </p>
+            <div className="photo-card">
+              <div className="photo-container">
+                <img 
+                  src="/DSC04434.jpeg" 
+                  alt="Jewelry Design Work" 
+                  className="photo-main"
+                  onLoad={() => console.log('DSC04434.jpeg loaded successfully')}
+                  onError={(e) => console.error('DSC04434.jpeg failed to load:', e)}
+                />
+                <img 
+                  src="/DSC04639.jpeg" 
+                  alt="Jewelry Design Work Hover" 
+                  className="photo-hover"
+                  onLoad={() => console.log('DSC04639.jpeg loaded successfully')}
+                  onError={(e) => console.error('DSC04639.jpeg failed to load:', e)}
+                />
               </div>
             </div>
           </motion.div>
@@ -190,66 +195,55 @@ export default function About() {
       </section>
 
       <style jsx>{`
-        .card {
-          position: relative;
+        .photo-card {
           width: 500px;
           height: 400px;
-          background-color: #f2f2f2;
           border-radius: 10px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
           overflow: hidden;
           perspective: 1000px;
-          box-shadow: 0 0 0 5px #ffffff80;
           transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .card svg {
-          width: 100px;
-          fill: #333;
-          transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .card:hover {
+        .photo-card:hover {
           transform: scale(1.05);
-          box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
         }
 
-        .card__content {
+        .photo-container {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+        }
+
+        .photo-main,
+        .photo-hover {
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
           height: 100%;
-          padding: 50px;
-          box-sizing: border-box;
-          background-color: #f2f2f2;
-          transform: rotateX(-90deg);
-          transform-origin: bottom;
+          object-fit: cover;
           transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .card:hover .card__content {
-          transform: rotateX(0deg);
+        .photo-main {
+          opacity: 1;
+          transform: rotateY(0deg);
         }
 
-        .card__title {
-          margin: 0;
-          font-size: 42px;
-          color: #333;
-          font-weight: 700;
+        .photo-hover {
+          opacity: 0;
+          transform: rotateY(90deg);
         }
 
-        .card:hover svg {
-          scale: 0;
+        .photo-card:hover .photo-main {
+          opacity: 0;
+          transform: rotateY(-90deg);
         }
 
-        .card__description {
-          margin: 25px 0 0;
-          font-size: 20px;
-          color: #777;
-          line-height: 1.6;
+        .photo-card:hover .photo-hover {
+          opacity: 1;
+          transform: rotateY(0deg);
         }
       `}</style>
     </div>
