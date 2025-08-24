@@ -146,21 +146,9 @@ export default function About() {
             />
             <div className="space-y-6 text-gray-300 leading-relaxed text-xl font-['Helvetica']">
               <p>
-                With a passion for merging traditional craftsmanship with contemporary innovation, 
-                I create jewelry pieces that tell stories and capture emotions. Each design is born 
-                from a deep appreciation for the artistry that transforms raw materials into 
-                meaningful treasures.
-              </p>
-              <p>
-                My design philosophy centers on the belief that jewelry should be both beautiful 
-                and meaningful, reflecting the wearer&apos;s personality while maintaining timeless appeal. 
-                I draw inspiration from nature&apos;s geometric patterns, architectural forms, and the 
-                interplay of light and shadow.
-              </p>
-              <p>
-                Currently seeking an internship opportunity to further develop my skills and 
-                contribute to a team of talented designers who share my passion for exceptional 
-                craftsmanship and innovative design solutions.
+                I began designing jewelry in the 8th grade, carving my first pieces from wax. Since then, jewelry design has been a consistent thread in my life. Over the years, I’ve created custom rings and pendants for both clients and brands, developing a design approach that consistently produces distinctive, memorable pieces.
+In such a saturated space, my goal is to create jewelry that feels both unique and approachable.
+I am currently open to custom one-of-one work, as well as collection or one-off designs for brands seeking standout, eye-catching pieces.
               </p>
             </div>
           </motion.div>
